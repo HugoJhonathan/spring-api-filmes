@@ -1,48 +1,58 @@
 package com.api.spring.filmes.core.crud;
 
+import com.api.spring.filmes.core.crud.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.List;
 import java.util.Objects;
 
-public abstract class CrudService<ENTITY, ID> {
+public abstract class CrudService<E, ID> {
 
     @Autowired
-    protected CrudRepository<ENTITY, ID> repository;
+    protected CrudRepository<E, ID> repository;
 
-    public List<ENTITY> listar(){
+    public List<E> listar(){
 
         return repository.findAll();
     }
 
-    public ENTITY porId(ID id){
+    public E porId(ID id){
 
-        return repository.findById(id).orElse(null);
+        var entity = repository.findById(id).orElse(null);
+
+        if(Objects.isNull(entity)){
+            throw new ResourceNotFoundException(id);
+        }
+        return entity;
     }
 
-    public ENTITY criar(ENTITY entity){
+    public E criar(E entity){
 
         return repository.save(entity);
     }
 
-    public ENTITY editar(ID id, ENTITY entity){
+    public E editar(ID id, E entity){
 
-        ENTITY entityRecuperada = porId(id);
+        E entityRecuperada = porId(id);
 
-        if(Objects.isNull(entityRecuperada)){
-            throw new RuntimeException("ID "+id+" não foi encontrado!");
-        }
-
-        ENTITY entityParaSalvar = editarEntidade(entityRecuperada, entity);
+        E entityParaSalvar = editarEntidade(entityRecuperada, entity);
 
         return repository.save(entityParaSalvar);
-
     }
-
-    protected abstract ENTITY editarEntidade(ENTITY entityRecuperada, ENTITY entity);
+    protected abstract E editarEntidade(E entityRecuperada, E entity);
 
     public void excluir(ID id){
+        try{
+            repository.deleteById(id);
+        }catch (EmptyResultDataAccessException e){
+            throw new ResourceNotFoundException(id);
+        }
+    }
 
-        repository.deleteById(id);
+    public List<E> findByNomeStartingWith(String nome){
+
+        return repository.findByNomeStartingWith(nome);
+
     }
 }

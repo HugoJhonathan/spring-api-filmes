@@ -3,48 +3,87 @@ package com.api.spring.filmes.core.crud;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-public abstract class CrudController<ENTITY, ID> {
+public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, ID> {
+
     @Autowired
-    protected CrudService<ENTITY, ID> service;
+    protected CrudService<E, ID> service;
+
+    @Autowired
+    protected CrudConverter<E, DTO, DTOF> converter;
 
     @GetMapping
-    public ResponseEntity<List<ENTITY>> listarTodos(){
+    public ResponseEntity<List<DTO>> listarTodos(@RequestParam(value = "search", required = false) String param){
 
-        return ResponseEntity.ok(service.listar());
+        if(!Objects.isNull(param)){
+            List<DTO> diretores = service.findByNomeStartingWith(param)
+                    .stream()
+                    .map(converter::entidadeParaDto)
+                    .collect(Collectors.toList());
+
+            return ResponseEntity.ok(diretores);
+        }
+
+        List<DTO> diretores = service.listar()
+                .stream()
+                .map(converter::entidadeParaDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(diretores);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ENTITY> listarUm(@PathVariable("id") ID id){
+    public ResponseEntity<DTOF> listarUm(@PathVariable("id") ID id){
 
-        ENTITY entity = service.porId(id);
+        E entity = service.porId(id);
 
         if(Objects.isNull(entity)){
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(entity);
+        DTOF convertido = converter.entidadeParaDtoFull(entity);
+
+        return ResponseEntity.ok(convertido);
     }
 
     @PostMapping
-    public ResponseEntity<ENTITY> criar(@RequestBody ENTITY entity){
-            ENTITY entitySave = service.criar(entity);
-            return ResponseEntity.ok(entitySave);
+    public ResponseEntity<DTO> criar(@RequestBody DTO dto){
+
+        E entity = converter.dtoParaEntidade(dto);
+        E entitySaved = service.criar(entity);
+        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(entitySaved.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(dtoSaved);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ENTITY> editar(@RequestBody ENTITY entity, @PathVariable("id") ID id){
-        ENTITY entityEditar = service.editar(id, entity);
-        return ResponseEntity.ok(entityEditar);
+    public ResponseEntity<DTO> editar(@RequestBody DTO dto, @PathVariable("id") ID id){
+
+        E entity = converter.dtoParaEntidade(dto);
+        E entitySaved = service.editar(id, entity);
+        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
+
+        return ResponseEntity.ok(dtoSaved);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable("id") ID id){
+
         service.excluir(id);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.noContent().build();
     }
 
 }
