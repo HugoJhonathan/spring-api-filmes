@@ -14,6 +14,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @AllArgsConstructor
@@ -26,9 +27,13 @@ public class Diretor implements Serializable, CrudDomain<Long> {
     private Long id;
     private String nome;
 
-    @JsonIgnore
+    @JsonIgnoreProperties("diretor")
     @OneToMany(mappedBy = "diretor")
     private List<Filme> filmes = new ArrayList<>();
+
+    public void addFilme(Filme filme){
+        this.filmes.add(filme);
+    }
 
     @PreRemove
     private void onRemoveSetNull() {

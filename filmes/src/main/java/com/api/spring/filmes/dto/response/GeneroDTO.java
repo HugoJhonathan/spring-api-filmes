@@ -1,20 +1,17 @@
-package com.api.spring.filmes.dto.full;
+package com.api.spring.filmes.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class GeneroFullDTO implements Serializable {
+public class GeneroDTO implements Serializable {
 
     private Long id;
     private String nome;
-    private List<FilmeFullDTO> filmes = new ArrayList<>();
 
 }

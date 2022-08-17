@@ -1,6 +1,7 @@
 package com.api.spring.filmes.domain;
 
 import com.api.spring.filmes.core.crud.CrudDomain;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Genero implements Serializable, CrudDomain<Long> {
 
     private String nome;
 
+    @JsonIgnoreProperties("generos")
     @ManyToMany(mappedBy = "generos")
     private List<Filme> filmes;
 

@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, ID> {
+public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, DTOCAD, ID> {
 
     @Autowired
     protected CrudService<E, ID> service;
 
     @Autowired
-    protected CrudConverter<E, DTO, DTOF> converter;
+    protected CrudConverter<E, DTO, DTOF, DTOCAD> converter;
 
     @GetMapping
     public ResponseEntity<List<DTO>> listarTodos(@RequestParam(value = "search", required = false) String param){
@@ -53,11 +53,11 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, ID> {
     }
 
     @PostMapping
-    public ResponseEntity<DTO> criar(@RequestBody DTO dto){
+    public ResponseEntity<DTOF> criar(@RequestBody DTOCAD dto){
 
-        E entity = converter.dtoParaEntidade(dto);
+        E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.criar(entity);
-        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
+        DTOF dtoSaved = converter.entidadeParaDtoFull(entitySaved);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -69,11 +69,11 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, ID> {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DTO> editar(@RequestBody DTO dto, @PathVariable("id") ID id){
+    public ResponseEntity<DTOF> editar(@RequestBody DTOCAD dto, @PathVariable("id") ID id){
 
-        E entity = converter.dtoParaEntidade(dto);
+        E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.editar(id, entity);
-        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
+        DTOF dtoSaved = converter.entidadeParaDtoFull(entitySaved);
 
         return ResponseEntity.ok(dtoSaved);
     }

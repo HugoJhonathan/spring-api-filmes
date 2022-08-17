@@ -2,17 +2,20 @@ package com.api.spring.filmes.converter;
 
 import com.api.spring.filmes.core.crud.CrudConverter;
 import com.api.spring.filmes.domain.Genero;
-import com.api.spring.filmes.dto.DiretorDTO;
-import com.api.spring.filmes.dto.GeneroDTO;
-import com.api.spring.filmes.dto.full.FilmeFullDTO;
-import com.api.spring.filmes.dto.full.GeneroFullDTO;
+import com.api.spring.filmes.dto.request.RequestGeneroDTO;
+import com.api.spring.filmes.dto.response.GeneroDTO;
+import com.api.spring.filmes.dto.response.full.FilmeFullDTO;
+import com.api.spring.filmes.dto.response.full.GeneroFullDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Component
-public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, GeneroFullDTO> {
+public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, GeneroFullDTO, RequestGeneroDTO> {
 
     @Override
     public GeneroDTO entidadeParaDto(Genero entidade) {
@@ -31,21 +34,26 @@ public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, GeneroF
     }
 
     @Override
-    public GeneroFullDTO entidadeParaDtoFull(Genero entidade) {
+    public Genero dtoCadastroParaEntidade(RequestGeneroDTO dto) {
+        var genero = new Genero();
+        genero.setId(dto.getId());
+        genero.setNome(dto.getNome());
+        return genero;
+    }
 
-        List<FilmeFullDTO> filmes = entidade.getFilmes() != null ? entidade.getFilmes().
-                stream()
-                .map(film -> new FilmeFullDTO(film.getId(),
-                        film.getTitle(),
-                        film.getData(),
-                        film.getPoster(),
-                        film.getOrcamento(),
-                        film.getReceita(),
-                        film.getDiretor() != null ? new DiretorDTO(film.getDiretor().getId(), film.getDiretor().getNome()) : null,
-                        film.getGeneros() != null ? film.getGeneros()
-                                .stream().map(gen -> new GeneroDTO(gen.getId(), gen.getNome())).collect(Collectors.toList()) : null
-                ))
-                .collect(Collectors.toList()) : null;
+    @Autowired
+    FilmeConverter filmeConverter;
+
+    @Override
+    public GeneroFullDTO entidadeParaDtoFull(Genero entidade) {
+        List<FilmeFullDTO> filmes = new ArrayList<>();
+
+        if(!Objects.isNull(entidade.getFilmes())) {
+            filmes = entidade.getFilmes()
+                    .stream()
+                    .map(filmeConverter::entidadeParaDtoFull)
+                    .collect(Collectors.toList());
+        }
 
         return new GeneroFullDTO(entidade.getId(), entidade.getNome(), filmes);
     }

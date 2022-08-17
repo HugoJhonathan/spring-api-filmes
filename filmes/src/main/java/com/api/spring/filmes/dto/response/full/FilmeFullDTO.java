@@ -1,5 +1,7 @@
-package com.api.spring.filmes.dto;
+package com.api.spring.filmes.dto.response.full;
 
+import com.api.spring.filmes.dto.response.DiretorDTO;
+import com.api.spring.filmes.dto.response.GeneroDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,18 +12,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class FilmeDTO implements Serializable {
+public class FilmeFullDTO implements Serializable {
 
     private Long id;
     private String title;
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern="dd/MM/yyyy")
     private Date data;
     private String poster;
     private Double orcamento;
     private Double receita;
+    private DiretorDTO diretor;
+    private List<GeneroDTO> generos = new ArrayList<>();
 
 }

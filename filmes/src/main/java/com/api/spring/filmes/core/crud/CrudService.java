@@ -19,18 +19,13 @@ public abstract class CrudService<E, ID> {
 
     public E porId(ID id){
 
-        var entity = repository.findById(id).orElse(null);
+        E entity = repository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException(id));
 
-        if(Objects.isNull(entity)){
-            throw new ResourceNotFoundException(id);
-        }
         return entity;
     }
 
-    public E criar(E entity){
-
-        return repository.save(entity);
-    }
+    protected abstract E criar(E entity);
 
     public E editar(ID id, E entity){
 
