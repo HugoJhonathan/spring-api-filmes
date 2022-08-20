@@ -23,5 +23,7 @@ public class FilmeDTO implements Serializable {
     private String poster;
     private Double orcamento;
     private Double receita;
+    private DiretorDTO diretor;
+    private List<GeneroDTO> generos = new ArrayList<>();
 
 }

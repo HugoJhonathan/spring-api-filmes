@@ -10,13 +10,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, DTOCAD, ID> {
+public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> {
 
     @Autowired
     protected CrudService<E, ID> service;
 
     @Autowired
-    protected CrudConverter<E, DTO, DTOF, DTOCAD> converter;
+    protected CrudConverter<E, DTO, DTOCAD> converter;
 
     @GetMapping
     public ResponseEntity<List<DTO>> listarTodos(@RequestParam(value = "search", required = false) String param){
@@ -39,7 +39,7 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, DTOCAD
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DTOF> listarUm(@PathVariable("id") ID id){
+    public ResponseEntity<DTO> listarUm(@PathVariable("id") ID id){
 
         E entity = service.porId(id);
 
@@ -47,17 +47,17 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, DTOCAD
             return ResponseEntity.notFound().build();
         }
 
-        DTOF convertido = converter.entidadeParaDtoFull(entity);
+        DTO convertido = converter.entidadeParaDto(entity);
 
         return ResponseEntity.ok(convertido);
     }
 
     @PostMapping
-    public ResponseEntity<DTOF> criar(@RequestBody DTOCAD dto){
+    public ResponseEntity<DTO> criar(@RequestBody DTOCAD dto){
 
         E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.criar(entity);
-        DTOF dtoSaved = converter.entidadeParaDtoFull(entitySaved);
+        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
 
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -69,11 +69,11 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOF, DTOCAD
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DTOF> editar(@RequestBody DTOCAD dto, @PathVariable("id") ID id){
+    public ResponseEntity<DTO> editar(@RequestBody DTOCAD dto, @PathVariable("id") ID id){
 
         E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.editar(id, entity);
-        DTOF dtoSaved = converter.entidadeParaDtoFull(entitySaved);
+        DTO dtoSaved = converter.entidadeParaDto(entitySaved);
 
         return ResponseEntity.ok(dtoSaved);
     }

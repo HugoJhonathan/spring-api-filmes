@@ -5,14 +5,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -30,22 +29,15 @@ public class Filme implements Serializable, CrudDomain<Long> {
     private Double receita;
 
     @JsonIgnoreProperties("filmes")
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "diretor_id", referencedColumnName = "id")
-    @Nullable
     private Diretor diretor;
 
     @JsonIgnoreProperties("filmes")
-    @ManyToMany()
+    @ManyToMany
     @JoinTable(name = "generos_do_filme",
             joinColumns = @JoinColumn(name = "id_filme"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
     private Set<Genero> generos =  new HashSet<>();
-
-    public void addGenero(Genero genero){
-        this.generos.add(genero);
-    }
-
-    public void addDiretor(Diretor diretor){ this.diretor = diretor; }
 
 }
