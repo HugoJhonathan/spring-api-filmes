@@ -15,11 +15,6 @@ import java.util.Objects;
 public class DiretorService extends CrudService<Diretor, Long> {
 
     @Override
-    protected Diretor criar(Diretor entity) {
-        return repository.save(entity);
-    }
-
-    @Override
     protected Diretor editarEntidade(Diretor entityRecuperada, Diretor entity) {
         entityRecuperada.setNome(entity.getNome());
         return entityRecuperada;

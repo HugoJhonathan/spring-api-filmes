@@ -14,5 +14,5 @@ public class RequestDiretorDTO {
 
     private Long id;
     private String nome;
-    private List<Long> filmesId = new ArrayList<>();
+
 }

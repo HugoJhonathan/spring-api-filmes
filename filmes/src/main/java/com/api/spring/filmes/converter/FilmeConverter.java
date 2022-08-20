@@ -9,6 +9,10 @@ import com.api.spring.filmes.dto.response.DiretorDTO;
 import com.api.spring.filmes.dto.response.FilmeDTO;
 import com.api.spring.filmes.dto.response.GeneroDTO;
 import com.api.spring.filmes.dto.response.full.FilmeFullDTO;
+import com.api.spring.filmes.repository.GeneroRepository;
+import com.api.spring.filmes.service.DiretorService;
+import com.api.spring.filmes.service.GeneroService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +22,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, FilmeFullDTO, RequestFilmeDTO> {
+
+    @Autowired
+    private DiretorService diretorService;
+
+    @Autowired
+    private GeneroService generoService;
 
     @Override
     public FilmeDTO entidadeParaDto(Filme filme){
@@ -44,7 +54,6 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, FilmeFullD
     public Filme dtoCadastroParaEntidade(RequestFilmeDTO dto) {
 
         Filme filme = new Filme();
-        filme.setId(dto.getId());
         filme.setTitle(dto.getTitle());
         filme.setData(dto.getData());
         filme.setPoster(dto.getPoster());
@@ -52,18 +61,11 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, FilmeFullD
         filme.setReceita(dto.getReceita());
 
         if(!Objects.isNull(dto.getGenerosId())){
-            List<Long> generosId = dto.getGenerosId();
-            for(Long id : generosId){
-                Genero genero = new Genero();
-                genero.setId(id);
-                filme.addGenero(genero);
-            }
+            filme.getGeneros().addAll(generoService.findByIdIn(dto.getGenerosId()));
         }
 
         if(!Objects.isNull(dto.getDiretorId())) {
-            Diretor diretor = new Diretor();
-            diretor.setId(dto.getDiretorId());
-            filme.setDiretor(diretor);
+            filme.setDiretor(diretorService.porId(dto.getDiretorId()));
         }
 
         return filme;
@@ -83,9 +85,7 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, FilmeFullD
         }
 
         if(!Objects.isNull(filme.getDiretor())) {
-            diretor = new DiretorDTO();
-            diretor.setId(filme.getDiretor().getId());
-            diretor.setNome(filme.getDiretor().getNome());
+            diretor = new DiretorDTO(filme.getDiretor().getId(), filme.getDiretor().getNome());
         }
 
         return new FilmeFullDTO(filme.getId(), filme.getTitle(), filme.getData(), filme.getPoster(), filme.getOrcamento(), filme.getReceita(), diretor, generos);

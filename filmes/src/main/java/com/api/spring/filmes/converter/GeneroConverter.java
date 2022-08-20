@@ -6,6 +6,7 @@ import com.api.spring.filmes.dto.request.RequestGeneroDTO;
 import com.api.spring.filmes.dto.response.GeneroDTO;
 import com.api.spring.filmes.dto.response.full.FilmeFullDTO;
 import com.api.spring.filmes.dto.response.full.GeneroFullDTO;
+import com.api.spring.filmes.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 
 @Component
 public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, GeneroFullDTO, RequestGeneroDTO> {
+
+    @Autowired
+    private FilmeConverter filmeConverter;
 
     @Override
     public GeneroDTO entidadeParaDto(Genero entidade) {
@@ -36,13 +40,9 @@ public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, GeneroF
     @Override
     public Genero dtoCadastroParaEntidade(RequestGeneroDTO dto) {
         var genero = new Genero();
-        genero.setId(dto.getId());
         genero.setNome(dto.getNome());
         return genero;
     }
-
-    @Autowired
-    FilmeConverter filmeConverter;
 
     @Override
     public GeneroFullDTO entidadeParaDtoFull(Genero entidade) {

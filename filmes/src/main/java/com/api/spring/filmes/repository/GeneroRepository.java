@@ -11,4 +11,6 @@ public interface GeneroRepository extends CrudRepository<Genero, Long> {
 
     List<Genero> findByNomeStartingWith(String nome);
 
+    List<Genero> findByIdIn(List<Long> ids);
+
 }

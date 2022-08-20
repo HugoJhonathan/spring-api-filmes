@@ -25,7 +25,9 @@ public abstract class CrudService<E, ID> {
         return entity;
     }
 
-    protected abstract E criar(E entity);
+    public E criar(E entity){
+        return repository.save(entity);
+    }
 
     public E editar(ID id, E entity){
 

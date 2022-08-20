@@ -16,7 +16,6 @@ import java.util.List;
 @Data
 public class RequestFilmeDTO implements Serializable {
 
-    private Long id;
     private String title;
     @JsonFormat(pattern="dd/MM/yyyy")
     private Date data;

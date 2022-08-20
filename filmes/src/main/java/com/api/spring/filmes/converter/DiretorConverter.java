@@ -6,6 +6,7 @@ import com.api.spring.filmes.dto.request.RequestDiretorDTO;
 import com.api.spring.filmes.dto.response.DiretorDTO;
 import com.api.spring.filmes.dto.response.full.DiretorFullDTO;
 import com.api.spring.filmes.dto.response.full.FilmeFullDTO;
+import com.api.spring.filmes.service.DiretorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,9 +40,7 @@ public class DiretorConverter implements CrudConverter<Diretor, DiretorDTO, Dire
     @Override
     public Diretor dtoCadastroParaEntidade(RequestDiretorDTO dto) {
         var diretor = new Diretor();
-        diretor.setId(dto.getId());
         diretor.setNome(dto.getNome());
-
         return diretor;
     }
 
