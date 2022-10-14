@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,5 +14,7 @@ public class GeneroDTO implements Serializable {
 
     private Long id;
     private String nome;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
 }

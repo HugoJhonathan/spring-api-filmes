@@ -17,9 +17,8 @@ import java.util.List;
 @Data
 public class FilmeFullDTO implements Serializable {
 
-    private Long id;
     private String title;
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date data;
     private String poster;
     private Double orcamento;

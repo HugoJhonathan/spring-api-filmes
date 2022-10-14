@@ -26,24 +26,35 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, RequestFil
     private GeneroService generoService;
 
     @Override
-    public FilmeDTO entidadeParaDto(Filme filme){
+    public FilmeDTO entidadeParaDto(Filme filme) {
 
         DiretorDTO diretor = null;
         List<GeneroDTO> generos = new ArrayList<>();
 
-        if(!Objects.isNull(filme.getGeneros())) {
+        if (!Objects.isNull(filme.getGeneros())) {
             generos = filme.getGeneros()
-                .stream()
-                .map(gen -> new GeneroDTO(gen.getId(), gen.getNome()))
-                .collect(Collectors.toList());
+                    .stream()
+                    .map(gen -> new GeneroDTO(gen.getId(), gen.getNome(), gen.getCreatedAt(), gen.getUpdatedAt()))
+                    .collect(Collectors.toList());
         }
 
-        if(!Objects.isNull(filme.getDiretor())) {
-            diretor = new DiretorDTO(filme.getDiretor().getId(), filme.getDiretor().getNome());
+        if (!Objects.isNull(filme.getDiretor())) {
+            diretor = new DiretorDTO(filme.getDiretor().getId(), filme.getDiretor().getNome(), filme.getDiretor().getCreatedAt(), filme.getDiretor().getUpdatedAt());
         }
 
-        return new FilmeDTO(filme.getId(), filme.getTitle(), filme.getData(), filme.getPoster(), filme.getOrcamento(), filme.getReceita(), diretor, generos);
 
+        return new FilmeDTO(filme.getId(),
+                filme.getTitle(),
+                filme.getData(),
+                filme.getPoster(),
+                filme.getOrcamento(),
+                filme.getReceita(),
+                diretor,
+                generos,
+                filme.getCreatedAt(),
+                filme.getUpdatedAt()
+
+        );
     }
 
     @Override
@@ -56,11 +67,11 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, RequestFil
         filme.setOrcamento(dto.getOrcamento());
         filme.setReceita(dto.getReceita());
 
-        if(!Objects.isNull(dto.getGenerosId())){
+        if (!Objects.isNull(dto.getGenerosId())) {
             filme.getGeneros().addAll(generoService.findByIdIn(dto.getGenerosId()));
         }
 
-        if(!Objects.isNull(dto.getDiretorId())) {
+        if (!Objects.isNull(dto.getDiretorId())) {
             filme.setDiretor(diretorService.porId(dto.getDiretorId()));
         }
 

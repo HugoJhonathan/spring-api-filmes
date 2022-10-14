@@ -4,8 +4,9 @@ import com.api.spring.filmes.core.crud.CrudDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -16,13 +17,12 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class Filme implements Serializable, CrudDomain<Long> {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+public class Filme extends BaseEntity implements Serializable, CrudDomain<Long> {
+
     private String title;
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date data;
     private String poster;
     private Double orcamento;
@@ -38,6 +38,6 @@ public class Filme implements Serializable, CrudDomain<Long> {
     @JoinTable(name = "generos_do_filme",
             joinColumns = @JoinColumn(name = "id_filme"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    private Set<Genero> generos =  new HashSet<>();
+    private Set<Genero> generos = new HashSet<>();
 
 }

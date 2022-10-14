@@ -18,6 +18,6 @@ public interface GeneroRepository extends CrudRepository<Genero, Long> {
 
 //  @Query(nativeQuery = true, value="SELECT f.nome FROM filme AS f JOIN generos_do_filme AS gdf ON f.id = gdf.id_filme JOIN genero AS g ON g.id = gdf.id_genero WHERE g.id = 1")
     @Query(value="from Filme f join f.generos g where g.id=:id")
-    List<Filme> recuperarPorIds(@Param("id") Long id);
+    List<Filme> filmesDoGenero(@Param("id") Long id);
 
 }

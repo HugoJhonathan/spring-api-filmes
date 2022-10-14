@@ -21,7 +21,7 @@ public class DiretorConverter implements CrudConverter<Diretor, DiretorDTO, Requ
         if (Objects.isNull(entidade)) {
             return null;
         }
-        return new DiretorDTO(entidade.getId(), entidade.getNome());
+        return new DiretorDTO(entidade.getId(), entidade.getNome(), entidade.getCreatedAt(), entidade.getUpdatedAt());
     }
 
     @Override

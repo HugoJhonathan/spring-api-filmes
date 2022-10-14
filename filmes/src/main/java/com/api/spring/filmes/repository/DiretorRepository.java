@@ -15,6 +15,6 @@ public interface DiretorRepository extends CrudRepository<Diretor, Long> {
     List<Diretor> findByNomeStartingWith(String nome);
 
     @Query(value="from Filme f join f.diretor d where d.id=:id")
-    List<Filme> recuperarPorIds(@Param("id") Long id);
+    List<Filme> filmesDoDiretor(@Param("id") Long id);
 
 }

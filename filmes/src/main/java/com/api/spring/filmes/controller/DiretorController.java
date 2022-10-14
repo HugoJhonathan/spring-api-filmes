@@ -30,7 +30,7 @@ public class DiretorController extends CrudController<Diretor, DiretorDTO, Reque
     @GetMapping("/{id}/filmes")
     public ResponseEntity<List<FilmeDTO>> listarFilmes(@PathVariable(value = "id") Long idGen){
 
-        var filmes = diretorRepository.recuperarPorIds(idGen)
+        var filmes = diretorRepository.filmesDoDiretor(idGen)
                 .stream().map(filmeConverter::entidadeParaDto)
                 .collect(Collectors.toList());
 
