@@ -1,7 +1,7 @@
-INSERT INTO diretor(nome) VALUES ("Matt Reeves");
-INSERT INTO diretor(nome) VALUES ("Matthew Vaughn");
-INSERT INTO diretor(nome) VALUES ("Robert Zemeckis");
-INSERT INTO diretor(nome) VALUES ("George Lucas");
+INSERT INTO diretor(nome) VALUES ('Matt Reeves');
+INSERT INTO diretor(nome) VALUES ('Matthew Vaughn');
+INSERT INTO diretor(nome) VALUES ('Robert Zemeckis');
+INSERT INTO diretor(nome) VALUES ('George Lucas');
 
 
 INSERT INTO genero(nome) VALUES ('Ação');
