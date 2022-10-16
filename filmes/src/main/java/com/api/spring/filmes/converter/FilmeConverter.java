@@ -11,9 +11,9 @@ import com.api.spring.filmes.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,13 +29,13 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, RequestFil
     public FilmeDTO entidadeParaDto(Filme filme) {
 
         DiretorDTO diretor = null;
-        List<GeneroDTO> generos = new ArrayList<>();
+        Set<GeneroDTO> generos = new LinkedHashSet<>();
 
         if (!Objects.isNull(filme.getGeneros())) {
             generos = filme.getGeneros()
                     .stream()
                     .map(gen -> new GeneroDTO(gen.getId(), gen.getNome(), gen.getCreatedAt(), gen.getUpdatedAt()))
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
         }
 
         if (!Objects.isNull(filme.getDiretor())) {
@@ -52,7 +52,8 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, RequestFil
                 diretor,
                 generos,
                 filme.getCreatedAt(),
-                filme.getUpdatedAt()
+                filme.getUpdatedAt(),
+                filme.getBase64()
 
         );
     }
@@ -66,9 +67,10 @@ public class FilmeConverter implements CrudConverter<Filme, FilmeDTO, RequestFil
         filme.setPoster(dto.getPoster());
         filme.setOrcamento(dto.getOrcamento());
         filme.setReceita(dto.getReceita());
+        filme.setBase64(dto.getBase64());
 
-        if (!Objects.isNull(dto.getGenerosId())) {
-            filme.getGeneros().addAll(generoService.findByIdIn(dto.getGenerosId()));
+        if (!Objects.isNull(dto.getGeneros())) {
+            filme.getGeneros().addAll(generoService.findByIdIn(dto.getGeneros()));
         }
 
         if (!Objects.isNull(dto.getDiretorId())) {

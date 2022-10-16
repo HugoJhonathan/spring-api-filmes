@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.net.ConnectException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @RestControllerAdvice
 public class RestExceptionHandler {
@@ -41,4 +42,12 @@ public class RestExceptionHandler {
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), error.toUpperCase(), ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
     }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    private ResponseEntity<StandardError> handleEntityNotFound(SQLIntegrityConstraintViolationException ex, HttpServletRequest request) {
+        String error = "CONFLICT";
+        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), error.toUpperCase(), ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+
 }

@@ -11,7 +11,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Entity
@@ -38,6 +38,9 @@ public class Filme extends BaseEntity implements Serializable, CrudDomain<Long> 
     @JoinTable(name = "generos_do_filme",
             joinColumns = @JoinColumn(name = "id_filme"),
             inverseJoinColumns = @JoinColumn(name = "id_genero"))
-    private Set<Genero> generos = new HashSet<>();
+    private Set<Genero> generos = new LinkedHashSet<>();
+
+    @Lob
+    private String base64;
 
 }
