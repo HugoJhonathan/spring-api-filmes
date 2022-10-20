@@ -15,6 +15,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+         
+      - name: Add api remote origin
+        run: |
+          echo ${{ secrets.HEROKU_API_KEY }}
       
       - name: Add api remote origin
         run: |
