@@ -3,7 +3,7 @@ name: Build App on Heroku
 on:
   push: // type of event
     branches:
-      - master // name of branch we want to listen to for event
+      - atividade-02 // name of branch we want to listen to for event
 
 jobs:
   heroku-pull-request:
