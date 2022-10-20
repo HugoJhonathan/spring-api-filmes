@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
+@OnDelete(action = OnDeleteAction.NO_ACTION)
 public class Diretor extends BaseEntity implements Serializable, CrudDomain<Long> {
 
     @Column(unique = true)
