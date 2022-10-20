@@ -15,6 +15,6 @@ public class FilmeController extends CrudController<Filme, FilmeDTO, RequestFilm
 
     @GetMapping("/a")
     ResponseEntity<String> a() {
-        return ResponseEntity.ok("main");
+        return ResponseEntity.ok("main test");
     }
 }
