@@ -30,5 +30,5 @@ jobs:
         run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
 
       - name: Push to master branch app on Heroku
-        run: git subtree push --prefix filmes origin ${{ github.ref_name }}
+        run: git subtree push --prefix filmes heroku master
        
