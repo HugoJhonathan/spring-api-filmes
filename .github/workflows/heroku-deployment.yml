@@ -18,7 +18,7 @@ jobs:
 
       
       - name: test
-        run: ${{secrets.HEROKU_API_KEY}} asdasd ${{secrets.HEROKU_APP_NAME}}
+        run: ${{secrets.HEROKU_API_KEY}} tes ${{secrets.HEROKU_APP_NAME}}
       
       
       - name: Add api remote origin
