@@ -31,4 +31,3 @@ jobs:
 
       - name: Push to master branch app on Heroku
         run: git subtree push --prefix filmes heroku master
-       
