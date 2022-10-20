@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
           ref: ${{ github.ref_name }}
@@ -25,6 +25,7 @@ jobs:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }} // Heroku API key
           heroku_app_name: ${{ env.HEROKU_APP_NAME }} // Declared above
           justlogin: true
+          appdir: "filmes"
 
       - name: Add Heroku remote
         run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
