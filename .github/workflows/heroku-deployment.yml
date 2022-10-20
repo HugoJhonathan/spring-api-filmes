@@ -1,8 +1,9 @@
 # .github/workflows/build-heroku-app.yml // Just a comment
 name: Build App on Heroku
 on:
-  push: // type of event
-    branches: atividade-02 // name of branch we want to listen to for event
+  push:
+    branches:
+      - atividade-02
 
 jobs:
   heroku-pull-request:
