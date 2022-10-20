@@ -21,4 +21,5 @@ jobs:
           heroku_email: ${{ secrets.HEROKU_EMAIL }} // Heroku email address
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }} // Heroku API key
           heroku_app_name: ${{ env.HEROKU_APP_NAME }} // Declared above
+          justlogin: true
           appdir: "filmes"
