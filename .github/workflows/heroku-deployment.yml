@@ -29,5 +29,5 @@ jobs:
       - name: Add Heroku remote
         run: heroku git:remote --app=${{ env.HEROKU_APP_NAME }}
 
-      - name: Push to master branch app on Heroku
+      - name: Push to master branch app on Heroku 2
         run: git push heroku ${{ github.ref_name }}:master --force
