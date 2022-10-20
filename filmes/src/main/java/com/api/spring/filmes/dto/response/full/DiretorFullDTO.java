@@ -13,7 +13,6 @@ import java.util.List;
 @Data
 public class DiretorFullDTO implements Serializable {
 
-    private Long id;
     private String nome;
     private List<FilmeFullDTO> filmes = new ArrayList<>();
 

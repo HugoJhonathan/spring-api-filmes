@@ -16,7 +16,7 @@ public class GeneroConverter implements CrudConverter<Genero, GeneroDTO, Request
     @Override
     public GeneroDTO entidadeParaDto(Genero entidade) {
 
-        return new GeneroDTO(entidade.getId(), entidade.getNome());
+        return new GeneroDTO(entidade.getId(), entidade.getNome(), entidade.getCreatedAt(), entidade.getUpdatedAt());
     }
 
     @Override

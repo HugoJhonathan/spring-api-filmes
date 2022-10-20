@@ -1,7 +1,7 @@
-INSERT INTO diretor(nome) VALUES ("Matt Reeves");
-INSERT INTO diretor(nome) VALUES ("Matthew Vaughn");
-INSERT INTO diretor(nome) VALUES ("Robert Zemeckis");
-INSERT INTO diretor(nome) VALUES ("George Lucas");
+INSERT INTO diretor(nome) VALUES ('Matt Reeves');
+INSERT INTO diretor(nome) VALUES ('Matthew Vaughn');
+INSERT INTO diretor(nome) VALUES ('Robert Zemeckis');
+INSERT INTO diretor(nome) VALUES ('George Lucas');
 
 
 INSERT INTO genero(nome) VALUES ('Ação');
@@ -32,10 +32,10 @@ INSERT INTO genero(nome) VALUES ('Terror');
 INSERT INTO genero(nome) VALUES ('Thriller');
 
 
-INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Batman', "2022-01-01",'https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@.jpg',185,770.3, 1);
-INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Kingsman: Serviço Secreto', "2014-01-01",'https://m.media-amazon.com/images/M/MV5BNTg3YTI1ZmUtMjM4MC00MzVkLTg2ODItMTczNjc3MzI2NjU0XkEyXkFqcGdeQXVyMTAyOTE2ODg0._V1_FMjpg_UX681_.jpg',81,414, 2);
-INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('De Volta para o Futuro', "1975-01-01",'https://m.media-amazon.com/images/M/MV5BYzA0YTY4NTctYTg2Mi00MzNhLWJiMmYtNjNhMTk1MTBmZDU3XkEyXkFqcGdeQXVyMTAzMDM4MjM0._V1_.jpg',19,381, 3);
-INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Star Wars', "1977-05-25",'https://m.media-amazon.com/images/M/MV5BNzg4MjQxNTQtZmI5My00YjMwLWJlMjUtMmJlY2U2ZWFlNzY1XkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX828_.jpg',11,775.8, 4);
+INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Batman', '2022-01-01','https://m.media-amazon.com/images/M/MV5BMDdmMTBiNTYtMDIzNi00NGVlLWIzMDYtZTk3MTQ3NGQxZGEwXkEyXkFqcGdeQXVyMzMwOTU5MDk@.jpg',185,770.3, 1);
+INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Kingsman: Serviço Secreto', '2014-01-01','https://m.media-amazon.com/images/M/MV5BNTg3YTI1ZmUtMjM4MC00MzVkLTg2ODItMTczNjc3MzI2NjU0XkEyXkFqcGdeQXVyMTAyOTE2ODg0._V1_FMjpg_UX681_.jpg',81,414, 2);
+INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('De Volta para o Futuro', '1975-01-01','https://m.media-amazon.com/images/M/MV5BYzA0YTY4NTctYTg2Mi00MzNhLWJiMmYtNjNhMTk1MTBmZDU3XkEyXkFqcGdeQXVyMTAzMDM4MjM0._V1_.jpg',19,381, 3);
+INSERT INTO filme(title, data, poster, orcamento, receita, diretor_id) VALUES ('Star Wars', '1977-05-25','https://m.media-amazon.com/images/M/MV5BNzg4MjQxNTQtZmI5My00YjMwLWJlMjUtMmJlY2U2ZWFlNzY1XkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX828_.jpg',11,775.8, 4);
 
 
 INSERT INTO generos_do_filme(id_filme, id_genero) VALUES (1,1);
