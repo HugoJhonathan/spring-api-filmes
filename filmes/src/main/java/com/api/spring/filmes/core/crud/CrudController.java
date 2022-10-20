@@ -1,15 +1,20 @@
 package com.api.spring.filmes.core.crud;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Api("API Rest Filmes")
+@CrossOrigin(origins = "*")
 public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> {
 
     @Autowired
@@ -19,9 +24,10 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> 
     protected CrudConverter<E, DTO, DTOCAD> converter;
 
     @GetMapping
-    public ResponseEntity<List<DTO>> listarTodos(@RequestParam(value = "search", required = false) String param){
+    @ApiOperation(value = "List all resorces")
+    public ResponseEntity<List<DTO>> listarTodos(@RequestParam(value = "search", required = false) String param) {
 
-        if(!Objects.isNull(param)){
+        if (!Objects.isNull(param)) {
             List<DTO> diretores = service.findByNomeStartingWith(param)
                     .stream()
                     .map(converter::entidadeParaDto)
@@ -39,21 +45,21 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DTO> listarUm(@PathVariable("id") ID id){
+    @ApiOperation(value = "Return specific resource")
+    public ResponseEntity<DTO> listarUm(@PathVariable("id") ID id) {
 
         E entity = service.porId(id);
 
-        if(Objects.isNull(entity)){
+        if (Objects.isNull(entity)) {
             return ResponseEntity.notFound().build();
         }
-
         DTO convertido = converter.entidadeParaDto(entity);
-
         return ResponseEntity.ok(convertido);
     }
 
     @PostMapping
-    public ResponseEntity<DTO> criar(@RequestBody DTOCAD dto){
+    @ApiOperation(value = "Create a new resorce")
+    public ResponseEntity<DTO> criar(@RequestBody @Valid DTOCAD dto) {
 
         E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.criar(entity);
@@ -69,7 +75,8 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> 
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DTO> editar(@RequestBody DTOCAD dto, @PathVariable("id") ID id){
+    @ApiOperation(value = "Edit specific resorce")
+    public ResponseEntity<DTO> editar(@RequestBody DTOCAD dto, @PathVariable("id") ID id) {
 
         E entity = converter.dtoCadastroParaEntidade(dto);
         E entitySaved = service.editar(id, entity);
@@ -79,7 +86,8 @@ public abstract class CrudController<E extends CrudDomain<ID>, DTO, DTOCAD, ID> 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable("id") ID id){
+    @ApiOperation(value = "Delete specific resorce")
+    public ResponseEntity<Void> deletar(@PathVariable("id") ID id) {
 
         service.excluir(id);
 

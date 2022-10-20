@@ -29,6 +29,10 @@ public class FilmeService extends CrudService<Filme, Long> {
         entityRecuperada.setReceita(entity.getReceita());
         entityRecuperada.setGeneros(entity.getGeneros());
 
+        if (entity.getBase64() != null) {
+            entityRecuperada.setBase64(entity.getBase64());
+        }
+
         return entityRecuperada;
 
     }

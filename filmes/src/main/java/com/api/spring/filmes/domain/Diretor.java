@@ -2,24 +2,26 @@ package com.api.spring.filmes.domain;
 
 import com.api.spring.filmes.core.crud.CrudDomain;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Diretor implements Serializable, CrudDomain<Long> {
+@Getter
+@Setter
+@OnDelete(action = OnDeleteAction.NO_ACTION)
+public class Diretor extends BaseEntity implements Serializable, CrudDomain<Long> {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true)
     private String nome;
+
 
 }

@@ -8,23 +8,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class FilmeFullDTO implements Serializable {
 
-    private Long id;
     private String title;
-    @JsonFormat(pattern="dd/MM/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private Date data;
     private String poster;
     private Double orcamento;
     private Double receita;
     private DiretorDTO diretor;
-    private List<GeneroDTO> generos = new ArrayList<>();
+    private Set<GeneroDTO> generos = new LinkedHashSet<>();
 
 }
